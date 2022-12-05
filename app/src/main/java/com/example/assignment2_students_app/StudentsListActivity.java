@@ -22,28 +22,37 @@ import java.util.List;
 public class StudentsListActivity extends AppCompatActivity {
     RecyclerView studentsListRecyclerView;
     List<Student> studentList;
+    TextView headerText;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
+        headerText = findViewById(R.id.headerText);
+        headerText.setText("Students List");
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(view -> {
+            this.finish();
+        });
+
         studentList = Model.getInstance().getAllStudents();
         studentsListRecyclerView = findViewById(R.id.studentRecyclerList);
         studentsListRecyclerView.setHasFixedSize(true);
 
         studentsListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         StudentRecyclerAdapter adapter = new StudentRecyclerAdapter();
-        studentsListRecyclerView.setAdapter(new StudentRecyclerAdapter());
-
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
                 Intent intent = new Intent(getApplicationContext(), StudentDetailsActivity.class);
-
                 intent.putExtra("pos", pos);
                 startActivity(intent);
             }
         });
+        studentsListRecyclerView.setAdapter(adapter);
+
+
     }
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
@@ -70,8 +79,12 @@ public class StudentsListActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(pos);
+                    if(listener != null) {
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(pos);
+                        }
+                    }
                 }
             });
         }
