@@ -2,9 +2,11 @@ package com.example.assignment2_students_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,18 @@ public class StudentsListActivity extends AppCompatActivity {
         studentsListRecyclerView.setHasFixedSize(true);
 
         studentsListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        StudentRecyclerAdapter adapter = new StudentRecyclerAdapter();
         studentsListRecyclerView.setAdapter(new StudentRecyclerAdapter());
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getApplicationContext(), StudentDetailsActivity.class);
+
+                intent.putExtra("pos", pos);
+                startActivity(intent);
+            }
+        });
     }
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
@@ -38,8 +51,9 @@ public class StudentsListActivity extends AppCompatActivity {
         TextView studentId;
         CheckBox studentIsChecked;
         ImageView studentImage;
+        ConstraintLayout studentRow;
 
-        public StudentViewHolder(@NonNull View itemView) {
+        public StudentViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             studentName = itemView.findViewById(R.id.studentListRowName);
             studentId = itemView.findViewById(R.id.studentListRowId);
@@ -53,6 +67,13 @@ public class StudentsListActivity extends AppCompatActivity {
                     st.setChecked(studentIsChecked.isChecked());
                 }
             });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    listener.onItemClick(pos);
+                }
+            });
         }
 
         public void bind(Student st, int position) {
@@ -64,13 +85,21 @@ public class StudentsListActivity extends AppCompatActivity {
         }
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int pos);
+    }
+
     class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentViewHolder> {
+        OnItemClickListener listener;
+        void setOnItemClickListener(OnItemClickListener listener) {
+            this.listener = listener;
+        }
         @NonNull
         @Override
         public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.student_list_row, parent, false);
 
-            return new StudentViewHolder(view);
+            return new StudentViewHolder(view, listener);
         }
 
         @Override
