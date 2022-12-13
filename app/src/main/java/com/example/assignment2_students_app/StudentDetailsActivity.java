@@ -2,7 +2,10 @@ package com.example.assignment2_students_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +16,13 @@ import com.example.assignment2_students_app.model.Student;
 public class StudentDetailsActivity extends AppCompatActivity {
     TextView headerText;
     ImageView backButton;
-
     ImageView imageView;
     TextView nameView;
     TextView idView;
     TextView phoneView;
     TextView addressView;
     CheckBox checkedView;
+    Button editStudentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +55,14 @@ public class StudentDetailsActivity extends AppCompatActivity {
         checkedView.setChecked(st.isChecked());
         checkedView.setText(st.isChecked()? "checked": "unchecked");
 
+        editStudentButton = findViewById(R.id.editStudentButton);
+        editStudentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), NewStudentActivity.class);
+                intent.putExtra("pos", pos);
+                startActivity(intent);
+            }
+        });
     }
 }

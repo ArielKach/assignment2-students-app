@@ -24,6 +24,7 @@ public class StudentsListActivity extends AppCompatActivity {
     List<Student> studentList;
     TextView headerText;
     ImageView backButton;
+    ImageView addStudentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,14 @@ public class StudentsListActivity extends AppCompatActivity {
         });
         studentsListRecyclerView.setAdapter(adapter);
 
-
+        addStudentButton = findViewById(R.id.addStudentButton);
+        addStudentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), NewStudentActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +68,7 @@ public class StudentsListActivity extends AppCompatActivity {
         TextView studentId;
         CheckBox studentIsChecked;
         ImageView studentImage;
-        ConstraintLayout studentRow;
+        // ConstraintLayout studentRow;
 
         public StudentViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -79,9 +87,9 @@ public class StudentsListActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null) {
+                    if (listener != null) {
                         int pos = getAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION) {
+                        if (pos != RecyclerView.NO_POSITION) {
                             listener.onItemClick(pos);
                         }
                     }
@@ -104,9 +112,11 @@ public class StudentsListActivity extends AppCompatActivity {
 
     class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentViewHolder> {
         OnItemClickListener listener;
+
         void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
         }
+
         @NonNull
         @Override
         public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

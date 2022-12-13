@@ -18,6 +18,14 @@ public class Model {
         }
     }
 
+    public void addStudent (Student newStudent) {
+        studentList.add(newStudent);
+    }
+
+    public void deleteStudent(int studentPos) {
+        studentList.remove(studentPos);
+    }
+
     List<Student> studentList = new LinkedList<>();
 
     public List<Student> getAllStudents(){
