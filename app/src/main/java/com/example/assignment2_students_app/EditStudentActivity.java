@@ -76,5 +76,9 @@ public class EditStudentActivity extends AppCompatActivity {
         addressViewEdit.setText(st.getAddress());
         checkedViewEdit.setChecked(st.isChecked());
         checkedViewEdit.setText(st.isChecked() ? "checked" : "unchecked");
+
+        checkedViewEdit.setOnCheckedChangeListener((compoundButton, b) -> {
+            checkedViewEdit.setText(b ? "checked" : "unchecked");
+        } );
     }
 }

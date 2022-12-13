@@ -23,7 +23,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
     TextView addressView;
     CheckBox checkedView;
     Button editStudentButton;
-
+    int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +42,28 @@ public class StudentDetailsActivity extends AppCompatActivity {
         phoneView = findViewById(R.id.phoneValue);
         addressView = findViewById(R.id.addressValue);
         checkedView = findViewById(R.id.studentDetailsChecked);
-
         Bundle extras = getIntent().getExtras();
-        int pos = extras.getInt("pos");
+        pos = extras.getInt("pos");
+        setViews();
+        editStudentButton = findViewById(R.id.editStudentButton);
+        editStudentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), EditStudentActivity.class);
+                intent.putExtra("pos", pos);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setViews();
+
+    }
+
+    private void setViews(){
         Student st = Model.getInstance().getAllStudents().get(pos);
 
         imageView.setImageResource(st.getImageId());
@@ -54,15 +73,5 @@ public class StudentDetailsActivity extends AppCompatActivity {
         addressView.setText(st.getAddress());
         checkedView.setChecked(st.isChecked());
         checkedView.setText(st.isChecked()? "checked": "unchecked");
-
-        editStudentButton = findViewById(R.id.editStudentButton);
-        editStudentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), NewStudentActivity.class);
-                intent.putExtra("pos", pos);
-                startActivity(intent);
-            }
-        });
     }
 }

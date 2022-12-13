@@ -68,7 +68,6 @@ public class StudentsListActivity extends AppCompatActivity {
         TextView studentId;
         CheckBox studentIsChecked;
         ImageView studentImage;
-        // ConstraintLayout studentRow;
 
         public StudentViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -135,5 +134,11 @@ public class StudentsListActivity extends AppCompatActivity {
         public int getItemCount() {
             return studentList.size();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        studentsListRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }
