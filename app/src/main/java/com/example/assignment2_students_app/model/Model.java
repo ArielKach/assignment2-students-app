@@ -13,9 +13,15 @@ public class Model {
     }
 
     private Model(){
-        for (int i = 0; i < 20; i++) {
-            studentList.add(new Student( Integer.toString(i),"name: " + i, R.drawable.student_image,"","",false ));
-        }
+        studentList.add(new Student( "1","Moshe", R.drawable.student_image,"1111","aaaa",false ));
+        studentList.add(new Student("2" ,"David", R.drawable.student_image,"2222","bbbb",false ));
+        studentList.add(new Student( "3","Yossi", R.drawable.student_image,"3333","cccc",false ));
+        studentList.add(new Student( "4","Hezi", R.drawable.student_image,"4444","dddd",false ));
+        studentList.add(new Student( "5","Dudi", R.drawable.student_image,"5555","eeee",false ));
+        studentList.add(new Student( "6","Asi", R.drawable.student_image,"6666","ffff",false ));
+        studentList.add(new Student( "7","Yotam", R.drawable.student_image,"7777","gggg",false ));
+        studentList.add(new Student( "8","Yoni", R.drawable.student_image,"8888","hhhh",false ));
+        studentList.add(new Student( "9","Rossi", R.drawable.student_image,"9999","iiii",false ));
     }
 
     public void addStudent (Student newStudent) {
